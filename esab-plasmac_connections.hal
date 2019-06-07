@@ -1,0 +1,21 @@
+# Keep your plasmac i/o connections here to prevent them from
+# being overwritten by updates or pncconf/stepconf changes
+
+# Other customisations may be placed here as well
+
+#***** debounce for the float switch *****
+# the lower the delay here the better
+loadrt  debounce                cfg=3
+setp    debounce.0.delay        5
+addf    debounce.0              servo-thread
+
+# the next line needs to be the joint associated with the Z axis
+net plasmac:axis-position joint.3.pos-fb => plasmac.axis-z-position
+
+net plasmac:arc-voltage-in hm2_7i96.0.encoder.00.velocity => plasmac.arc-voltage-in
+net plasmac:arc-ok-in hm2_7i96.0.gpio.000.in => plasmac.arc-ok-in
+net plasmac:float-switch hm2_7i96.0.gpio.001.in => debounce.0.0.in
+# net plasmac:breakaway {YOUR BREAKAWAY PIN} => debounce.0.1.in
+# net plasmac:ohmic-probe {YOUR OHMIC PROBE PIN} => debounce.0.2.in
+# net plasmac:ohmic-enable plasmac.ohmic-enable  => {YOUR OHMIC ENABLE PIN}
+net plasmac:torch-on => hm2_7i96.0.ssr.00.out-00
