@@ -10,19 +10,18 @@ addf motion-command-handler   servo-thread
 addf motion-controller        servo-thread
 addf hm2_7i96.0.write         servo-thread
 
-# external output signals
+#  ---external output signals---
 
 #	 ESAB-torch-on 	=> hm2_7i96.0.ssr.00.out-00
 
-# external input signals
+#  ---external input signals---
 
 #	 thcad-raw 		<= hm2_7i96.0.encoder.00.velocity
-#	 ESAB-arcok 		<= hm2_7i96.0.gpio.000.in
-#	 table-float-sw 	<= hm2_7i96.0.gpio.001.in
+#	 table-float-sw 	<= hm2_7i96.0.gpio.000.in
+#	 table-y-home-sw	<= hm2_7i96.0.gpio.001.in
+#	 table-xz-home-sw	<= hm2_7i96.0.gpio.002.in
 
-net table-xhome 	<= hm2_7i96.0.gpio.002.in
-net table-yhome 	<= hm2_7i96.0.gpio.003.in
-net table-zhome 	<= hm2_7i96.0.gpio.004.in
+
 
 #**********************
 # Torch Height Control
@@ -33,6 +32,8 @@ net table-zhome 	<= hm2_7i96.0.gpio.004.in
 setp hm2_7i96.0.encoder.00.counter-mode 1
 setp hm2_7i96.0.encoder.00.filter 1
 setp hm2_7i96.0.encoder.00.scale 1
+
+
 
 #*******************
 #  AXIS X
@@ -60,11 +61,7 @@ net x-pos-fb     => joint.0.motor-pos-fb
 net x-enable     <= joint.0.amp-enable-out
 net x-enable     => hm2_7i96.0.stepgen.00.enable
 
-# ---setup home / limit switch signals---
 
-net x-home-sw     =>  joint.0.home-sw-in
-net x-neg-limit     =>  joint.0.neg-lim-sw-in
-net x-pos-limit     =>  joint.0.pos-lim-sw-in
 
 #*******************
 #  AXIS Y
@@ -92,11 +89,7 @@ net y-pos-fb     => joint.1.motor-pos-fb
 net y-enable     <= joint.1.amp-enable-out
 net y-enable     => hm2_7i96.0.stepgen.01.enable
 
-# ---setup home / limit switch signals---
 
-net y-home-sw     =>  joint.1.home-sw-in
-net y-neg-limit     =>  joint.1.neg-lim-sw-in
-net y-pos-limit     =>  joint.1.pos-lim-sw-in
 
 #*******************
 #  AXIS Z
@@ -124,11 +117,7 @@ net z-pos-fb     => joint.2.motor-pos-fb
 net z-enable     <= joint.2.amp-enable-out
 net z-enable     => hm2_7i96.0.stepgen.02.enable
 
-# ---setup home / limit switch signals---
 
-net z-home-sw     =>  joint.2.home-sw-in
-net z-neg-limit     =>  joint.2.neg-lim-sw-in
-net z-pos-limit     =>  joint.2.pos-lim-sw-in
 
 #*******************
 #  AXIS A
@@ -156,11 +145,7 @@ net z-pos-fb     => joint.3.motor-pos-fb
 net z-enable     <= joint.3.amp-enable-out
 net z-enable     => hm2_7i96.0.stepgen.03.enable
 
-# ---setup home / limit switch signals---
 
-net z-home-sw     =>  joint.3.home-sw-in
-net z-neg-limit     =>  joint.3.neg-lim-sw-in
-net z-pos-limit     =>  joint.3.pos-lim-sw-in
 
 #******************************
 # connect miscellaneous signals
@@ -170,6 +155,28 @@ net z-pos-limit     =>  joint.3.pos-lim-sw-in
 
 net in-position               <=  motion.in-position
 net machine-is-enabled        <=  motion.motion-enabled
+
+# ---setup home / limit switch signals---
+
+net z-home-sw     =>  joint.3.home-sw-in
+net z-neg-limit     =>  joint.3.neg-lim-sw-in
+net z-pos-limit     =>  joint.3.pos-lim-sw-in
+
+net z-home-sw     =>  joint.2.home-sw-in
+net z-neg-limit     =>  joint.2.neg-lim-sw-in
+net z-pos-limit     =>  joint.2.pos-lim-sw-in
+
+# ---setup home / limit switch signals---
+
+net y-home-sw     =>  joint.1.home-sw-in
+net y-neg-limit     =>  joint.1.neg-lim-sw-in
+net y-pos-limit     =>  joint.1.pos-lim-sw-in
+
+# ---setup home / limit switch signals---
+
+net x-home-sw     =>  joint.0.home-sw-in
+net x-neg-limit     =>  joint.0.neg-lim-sw-in
+net x-pos-limit     =>  joint.0.pos-lim-sw-in
 
 #  ---estop signals---
 
