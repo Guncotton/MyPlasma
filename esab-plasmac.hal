@@ -1,7 +1,7 @@
 loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS 
 loadrt hostmot2
-loadrt hm2_eth board_ip=10.10.10.10 config=" num_encoders=1 num_pwmgens=0 num_stepgens=3" 
+loadrt hm2_eth board_ip=10.10.10.10 config=" num_encoders=1 num_pwmgens=0 num_stepgens=4" 
 setp    hm2_7i96.0.watchdog.timeout_ns 5000000
 
 
@@ -130,6 +130,38 @@ net z-home-sw     =>  joint.2.home-sw-in
 net z-neg-limit     =>  joint.2.neg-lim-sw-in
 net z-pos-limit     =>  joint.2.pos-lim-sw-in
 
+#*******************
+#  AXIS A
+#*******************
+
+# Step Gen signals/setup
+
+setp   hm2_7i96.0.stepgen.03.dirsetup        [JOINT_3]DIRSETUP
+setp   hm2_7i96.0.stepgen.03.dirhold         [JOINT_3]DIRHOLD
+setp   hm2_7i96.0.stepgen.03.steplen         [JOINT_3]STEPLEN
+setp   hm2_7i96.0.stepgen.03.stepspace       [JOINT_3]STEPSPACE
+setp   hm2_7i96.0.stepgen.03.position-scale  [JOINT_3]STEP_SCALE
+setp   hm2_7i96.0.stepgen.03.step_type        0
+setp   hm2_7i96.0.stepgen.03.control-type     1
+setp   hm2_7i96.0.stepgen.03.maxaccel         [JOINT_3]STEPGEN_MAXACCEL
+setp   hm2_7i96.0.stepgen.03.maxvel           [JOINT_3]STEPGEN_MAXVEL
+
+# ---closedloop stepper signals---
+
+net z-pos-cmd    <= joint.3.motor-pos-cmd
+net z-vel-cmd    <= joint.3.vel-cmd
+net z-output     => hm2_7i96.0.stepgen.03.velocity-cmd
+net z-pos-fb     <= hm2_7i96.0.stepgen.03.position-fb
+net z-pos-fb     => joint.3.motor-pos-fb
+net z-enable     <= joint.3.amp-enable-out
+net z-enable     => hm2_7i96.0.stepgen.03.enable
+
+# ---setup home / limit switch signals---
+
+net z-home-sw     =>  joint.3.home-sw-in
+net z-neg-limit     =>  joint.3.neg-lim-sw-in
+net z-pos-limit     =>  joint.3.pos-lim-sw-in
+
 #******************************
 # connect miscellaneous signals
 #******************************
@@ -138,8 +170,6 @@ net z-pos-limit     =>  joint.2.pos-lim-sw-in
 
 net in-position               <=  motion.in-position
 net machine-is-enabled        <=  motion.motion-enabled
-
-#  ---digital in / out signals---
 
 #  ---estop signals---
 
