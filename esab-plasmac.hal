@@ -20,10 +20,10 @@ addf hm2_7i96.0.write         servo-thread
 #	 table-float-sw 	<= hm2_7i96.0.gpio.002.in
 #	 esab-arcok		<= hm2_7i96.0.gpio.003.in
 
-net	 x-home-sw		<= hm2_7i96.0.gpio.002.in_not
-net	 y-home-sw		<= hm2_7i96.0.gpio.001.in_not
-net	 z-home-sw		<= hm2_7i96.0.gpio.002.in_not
-	
+net	x-home-sw	joint.0.home-sw-in	<= hm2_7i96.0.gpio.002.in_not
+net	y-home-sw	joint.1.home-sw-in	<= hm2_7i96.0.gpio.001.in_not
+net	x-home-sw				=> joint.2.home-sw-in	
+net	y-home-sw				=> joint.3.home-sw-in	
 
 
 #**********************
@@ -146,15 +146,6 @@ net a-enable     hm2_7i96.0.stepgen.03.enable		<= joint.3.amp-enable-out
 
 net in-position               <=  motion.in-position
 net machine-is-enabled        <=  motion.motion-enabled
-
-# ---setup home / limit switch signals---
-
-net z-home-sw       =>  joint.2.home-sw-in
-
-net y-home-sw       =>  joint.1.home-sw-in
-
-net x-home-sw       =>  joint.0.home-sw-in
-
 
 #  ---estop signals---
 
