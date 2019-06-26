@@ -12,16 +12,18 @@ addf hm2_7i96.0.write         servo-thread
 
 #  ---external output signals---
 
-#	 ESAB-torch-on 	=> hm2_7i96.0.ssr.00.out-00
+#	 ESAB-start	 	=> hm2_7i96.0.ssr.00.out-00
 
 #  ---external input signals---
 
-#	 thcad-raw 		<= hm2_7i96.0.encoder.00.velocity
-#	 table-float-sw 	<= hm2_7i96.0.gpio.000.in
+#	 torch-voltage 		<= hm2_7i96.0.encoder.00.velocity
+#	 table-float-sw 	<= hm2_7i96.0.gpio.002.in
+#	 esab-arcok		<= hm2_7i96.0.gpio.003.in
+
+net	 x-home-sw		<= hm2_7i96.0.gpio.002.in_not
 net	 y-home-sw		<= hm2_7i96.0.gpio.001.in_not
 net	 z-home-sw		<= hm2_7i96.0.gpio.002.in_not
-#	 esab-arkok		<= hm2_7i96.0.gpio.003.in	
-
+	
 
 
 #**********************
@@ -55,12 +57,10 @@ setp   hm2_7i96.0.stepgen.00.maxvel           [JOINT_0]STEPGEN_MAXVEL
 # ---closedloop stepper signals---
 
 net x-pos-cmd    hm2_7i96.0.stepgen.00.position-cmd	<= joint.0.motor-pos-cmd
-
 net x-vel-cmd    hm2_7i96.0.stepgen.00.velocity-cmd	<= joint.0.vel-cmd
-
 net x-pos-fb     joint.0.motor-pos-fb			<= hm2_7i96.0.stepgen.00.position-fb
-
 net x-enable     hm2_7i96.0.stepgen.00.enable		<= joint.0.amp-enable-out
+
 
 
 #*******************
@@ -86,10 +86,6 @@ net y-vel-cmd    hm2_7i96.0.stepgen.01.velocity-cmd	<= joint.1.vel-cmd
 net y-pos-fb     joint.1.motor-pos-fb			<= hm2_7i96.0.stepgen.01.position-fb
 net y-enable     hm2_7i96.0.stepgen.01.enable		<= joint.1.amp-enable-out
 
-net a-pos-cmd    hm2_7i96.0.stepgen.03.position-cmd	<= joint.3.motor-pos-cmd
-net a-vel-cmd    hm2_7i96.0.stepgen.03.velocity-cmd	<= joint.3.vel-cmd
-net a-pos-fb     joint.3.motor-pos-fb			<= hm2_7i96.0.stepgen.03.position-fb
-net a-enable     hm2_7i96.0.stepgen.03.enable		<= joint.3.amp-enable-out
 
 
 #*******************
@@ -111,12 +107,10 @@ setp   hm2_7i96.0.stepgen.02.maxvel           [JOINT_2]STEPGEN_MAXVEL
 # ---closedloop stepper signals---
 
 net z-pos-cmd    hm2_7i96.0.stepgen.02.position-cmd	<= joint.2.motor-pos-cmd
-
 net z-vel-cmd    hm2_7i96.0.stepgen.02.velocity-cmd	<= joint.2.vel-cmd
-
 net z-pos-fb     joint.2.motor-pos-fb			<= hm2_7i96.0.stepgen.02.position-fb
-
 net z-enable     hm2_7i96.0.stepgen.02.enable		<= joint.2.amp-enable-out
+
 
 
 #*******************
@@ -137,13 +131,10 @@ setp   hm2_7i96.0.stepgen.03.maxvel           [JOINT_3]STEPGEN_MAXVEL
 
 # ---closedloop stepper signals---
 
-#net z-pos-cmd    <= joint.3.motor-pos-cmd
-#net z-vel-cmd    <= joint.3.vel-cmd
-#net z-output     => hm2_7i96.0.stepgen.03.velocity-cmd
-#net z-pos-fb     <= hm2_7i96.0.stepgen.03.position-fb
-#net z-pos-fb     => joint.3.motor-pos-fb
-#net z-enable     <= joint.3.amp-enable-out
-#net z-enable     => hm2_7i96.0.stepgen.03.enable
+net a-pos-cmd    hm2_7i96.0.stepgen.03.position-cmd	<= joint.3.motor-pos-cmd
+net a-vel-cmd    hm2_7i96.0.stepgen.03.velocity-cmd	<= joint.3.vel-cmd
+net a-pos-fb     joint.3.motor-pos-fb			<= hm2_7i96.0.stepgen.03.position-fb
+net a-enable     hm2_7i96.0.stepgen.03.enable		<= joint.3.amp-enable-out
 
 
 
