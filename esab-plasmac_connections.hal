@@ -6,7 +6,7 @@
 #***** debounce for the float switch *****
 # the lower the delay here the better
 loadrt  debounce                cfg=3
-setp    debounce.0.delay        5
+setp    debounce.0.delay        1
 addf    debounce.0              servo-thread
 
 # the next line needs to be the joint associated with the Z axis
