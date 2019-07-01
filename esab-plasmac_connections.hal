@@ -6,13 +6,15 @@
 #***** debounce for the float switch *****
 # the lower the delay here the better
 loadrt  debounce                cfg=3
-setp    debounce.0.delay        1
+setp    debounce.0.delay        3
 addf    debounce.0              servo-thread
 
 # the next line needs to be the joint associated with the Z axis
 net plasmac:axis-position joint.2.pos-fb => plasmac.axis-z-position
 
-net plasmac:arc-voltage-in 	hm2_7i96.0.encoder.00.velocity 	=> plasmac.arc-voltage-in
+#net plasmac:arc-voltage-in 	hm2_7i96.0.encoder.00.velocity 	=> plasmac.arc-voltage-in
+net plasmac:arc-voltage-in 	lowpass.0.out		 	=> plasmac.arc-voltage-in
+
 net plasmac:arc-ok-in 		hm2_7i96.0.gpio.003.in 		=> plasmac.arc-ok-in
 net plasmac:float-switch 	hm2_7i96.0.gpio.000.in_not	=> debounce.0.0.in
 net plasmac:torch-on 						=> hm2_7i96.0.ssr.00.out-00
